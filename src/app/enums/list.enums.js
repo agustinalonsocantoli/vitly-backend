@@ -1,0 +1,20 @@
+export const UNIT = {
+    'kilogram': 'kilogramo',
+    'gram': 'gramo',
+    'liter': 'litro',
+    'milliliter': 'mililitro',
+    'unit': 'unidad',
+    'piece': 'pieza',
+    'dozen': 'docena',
+    'box': 'caja',
+    'pack': 'paquete',
+    'bottle': 'botella',
+    'can': 'lata',
+    'jar': 'frasco',
+    'bag': 'bolsa',
+    'slice': 'rebanada',
+    'cup': 'taza',
+    'bar': 'barra',
+    'sachet': 'sobre',
+    'roll': 'rollo'
+}
