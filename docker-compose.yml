@@ -30,6 +30,29 @@ services:
       - mongodb_data:/data/db
     networks:
       - app-network
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:latest
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - TZ=Europe/Madrid
+    volumes:
+      - ./uptime_kuma_data:/app/data
+    networks:
+      - app-network
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
 
 networks:
   app-network:
@@ -37,3 +60,4 @@ networks:
 
 volumes:
   mongodb_data:
+  uptime_kuma_data:
