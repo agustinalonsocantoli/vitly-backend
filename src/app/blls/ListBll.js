@@ -1,5 +1,5 @@
 import ListRepository from '../repositories/ListRepository.js';
-import { createError } from '../services/HandleErrors.js';
+import { createError, validateError } from '../services/HandleErrors.js';
 import validationService from '../services/ValidationService.js';
 import { CreateListValidator } from '../validators/ListValidators.js';
 
@@ -48,7 +48,7 @@ class ListBll {
     async create(listData, user) {
         try {
             const { data, error } = await validationService.validate(CreateListValidator, listData)
-            if (error) throw new Error(error);
+            if (error) validateError(error);
 
             const createData = {
                 user,
@@ -66,7 +66,7 @@ class ListBll {
     async update(id, listData, user) {
         try {
             const { data, error } = await validationService.validate(CreateListValidator, listData)
-            if (error) throw error;
+            if (error) validateError(error);
 
             const updatedList = await ListRepository.update(user, id, data);
 
@@ -79,7 +79,7 @@ class ListBll {
     async updateStatus(id, status, user) {
         try {
             const { data, error } = await validationService.validate(UpdateStatusListValidator, status)
-            if (error) throw error;
+            if (error) validateError(error);
 
             const response = await ListRepository.updateStatus(user, id, data);
             if (!response) createError(500, "Could not update status");
@@ -93,7 +93,7 @@ class ListBll {
     async updateFavorite(id, isFavorite, user) {
         try {
             const { data, error } = await validationService.validate(UpdateFavoriteListValidator, isFavorite)
-            if (error) throw error;
+            if (error) validateError(error);
 
             const response = await ListRepository.updateFavorite(user, id, data);
             if (!response) createError(500, "Could not update favorite");

@@ -3,15 +3,16 @@ import VerifyEmailRepository from "../repositories/VerifyEmailRepository.js";
 import validationService from "../services/ValidationService.js";
 import { LoginValidator, RegisterValidator, ResendVerifyValidator, VerifyValidator } from "../validators/AuthValidators.js";
 import emailService from "../services/EmailServices.js"
-import { createError } from "../services/HandleErrors.js";
+import { createError, validateError } from "../services/HandleErrors.js";
 import argon2 from "argon2"
 import jwt from "jsonwebtoken"
+import VerifyEmail from "../models/VerifyEmail.model.js";
 
 class AuthBll {
     async login(credentials) {
         try {
             const { data, error } = await validationService.validate(LoginValidator, credentials)
-            if (error) throw new Error(error);
+            if (error) validateError(error);
 
             const user = await UserRepository.getLoginUser(data.user);
             if (!user) {
@@ -22,7 +23,7 @@ class AuthBll {
                     const verify = await VerifyEmailRepository.updateCode(data.email, code);
 
                     if (!verify) createError(500, "Could not create verification");
-                    await emailService.sendVerificationEmail(data.email, verify.code);
+                    await emailService.sendVerifyCode(data.email, verify.code);
 
                     return {
                         type: 'verify',
@@ -53,13 +54,13 @@ class AuthBll {
     async register(user) {
         try {
             const { data, error } = await validationService.validate(RegisterValidator, user)
-            if (error) throw new Error(error);
+            if (error) validateError(error);
 
             const findUser = await UserRepository.getByEmail(data.email);
             if (findUser) createError(409, "User already exists");
 
             const findVerify = await VerifyEmailRepository.getByEmail(data.email);
-            const code = await VerifyEmailRepository.generateUniqueCode();
+            const code = await VerifyEmail.generateUniqueCode();
             let verify;
 
             if (findVerify) {
@@ -74,7 +75,7 @@ class AuthBll {
 
             if (!verify) createError(500, "Could not create verification");
 
-            await emailService.sendVerificationEmail(data.email, verify.code);
+            await emailService.sendVerifyCode(data.email, verify.code);
 
             return {
                 type: 'verify',
@@ -88,14 +89,14 @@ class AuthBll {
     async validateVerify(verifyData) {
         try {
             const { data, error } = await validationService.validate(VerifyValidator, verifyData)
-            if (error) throw new Error(error);
+            if (error) validateError(error);
 
             const findVerify = await VerifyEmailRepository.getByEmailAndCode(data.email, data.code);
             if (!findVerify) createError(400, "Invalid verification code");
 
             if (findVerify.expiredCode < new Date()) createError(400, "Verification code has expired");
-
-            const newUser = await UserRepository.create({
+            console.log(findVerify)
+            const newUser = await UserRepository.register({
                 email: findVerify.email,
                 password: findVerify.password
             });
@@ -117,7 +118,7 @@ class AuthBll {
     async resendVerify(resendData) {
         try {
             const { data, error } = await validationService.validate(ResendVerifyValidator, resendData)
-            if (error) throw new Error(error);
+            if (error) validateError(error);
 
             const findUser = await UserRepository.getByEmail(data.email);
             if (findUser) createError(409, "User exists and verified");
@@ -125,11 +126,11 @@ class AuthBll {
             const findVerify = await VerifyEmailRepository.getByEmail(data.email);
             if (!findVerify) createError(400, "Invalid email");
 
-            const code = await VerifyEmailRepository.generateUniqueCode();
+            const code = await VerifyEmail.generateUniqueCode();
             const verify = await VerifyEmailRepository.updateCode(data.email, code);
             if (!verify) createError(500, "Could not create verification");
 
-            await emailService.sendVerificationEmail(data.email, verify.code);
+            await emailService.sendVerifyCode(data.email, verify.code);
 
             return {
                 type: 'verify',

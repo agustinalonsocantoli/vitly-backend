@@ -3,7 +3,7 @@ import VerifyEmail from "../models/VerifyEmail.model.js";
 class VerifyEmailRepository {
     async getByEmail(email) {
         try {
-            return await VerifyEmail.findOne({ email }).select('-password');
+            return await VerifyEmail.findOne({ email }).select('+password');
         } catch (error) {
             throw error;
         }
@@ -11,7 +11,7 @@ class VerifyEmailRepository {
 
     async getByEmailAndCode(email, code) {
         try {
-            return await VerifyEmail.findOne({ email, code }).select('-password');
+            return await VerifyEmail.findOne({ email, code }).select('+password');
         } catch (error) {
             throw error;
         }

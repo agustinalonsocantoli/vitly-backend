@@ -1,4 +1,5 @@
 import FeedbackRepository from "../repositories/FeedbackRepository";
+import { validateError } from "../services/HandleErrors";
 import validationService from "../services/ValidationService";
 import { FeedbackValidator } from "../validators/FeedbackValidators";
 
@@ -28,7 +29,7 @@ class FeedbackBll {
     async create(feedbackData, user) {
         try {
             const { data, error } = await validationService.validate(FeedbackValidator, feedbackData);
-            if (error) throw new Error(error);
+            if (error) validateError(error);
 
             const createFeedback = {
                 user,

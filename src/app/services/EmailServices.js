@@ -39,10 +39,7 @@ class EmailServices {
         }
     }
 
-    async sendVerifyCode({
-        email,
-        code
-    }) {
+    async sendVerifyCode(email, code) {
         try {
             const content = verifyCode(code);
             const subject = 'Código de verificación';

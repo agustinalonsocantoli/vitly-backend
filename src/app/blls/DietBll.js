@@ -4,7 +4,7 @@ import DietScheduleRepository from "../repositories/DietScheduleRepository.js";
 import { GenerateDietValidator, UpdateStatusDietValidator } from "../validators/DietValidators.js";
 import ListServices from "../services/ListServices.js";
 import ListRepository from "../repositories/ListRepository.js";
-import { createError } from "../services/HandleErrors.js";
+import { createError, validateError } from "../services/HandleErrors.js";
 import DietServices from "../services/DietServices.js";
 import DietScheduleServices from "../services/DietScheduleServices.js";
 import { addWeeks } from "date-fns";
@@ -56,7 +56,7 @@ class DietBll {
     async generate(dietData, user) {
         try {
             const { data, error } = await validationService.validate(GenerateDietValidator, dietData)
-            if (error) throw error;
+            if (error) validateError(error);
 
             const userFind = await UserRepository.getById(user);
             if (!userFind) createError(404, "User not found");
@@ -139,7 +139,7 @@ class DietBll {
     async updateStatus(id, status, user) {
         try {
             const { data, error } = await validationService.validate(UpdateStatusDietValidator, status)
-            if (error) throw error;
+            if (error) validateError(error);
 
             const response = await DietRepository.updateStatus(id, data, user);
             if (!response) createError(500, "Could not update status");

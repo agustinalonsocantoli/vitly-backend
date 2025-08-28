@@ -28,7 +28,7 @@ verifyEmailSchema.pre('save', async function (next) {
     else next()
 })
 
-verifyEmailSchema.methods.generateUniqueCode = async function () {
+verifyEmailSchema.statics.generateUniqueCode = async function () {
     let code;
     let isUnique = false;
 

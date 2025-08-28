@@ -15,3 +15,10 @@ export const createError = (status, message) => {
     error.statusCode = status;
     throw error;
 }
+
+export const validateError = (error) => {
+    const validationError = new Error(error.message);
+    validationError.statusCode = 400;
+    validationError.validationDetails = error.error;
+    throw validationError;
+}

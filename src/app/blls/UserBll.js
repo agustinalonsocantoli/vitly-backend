@@ -1,6 +1,6 @@
 import UserRepository from "../repositories/UserRepository.js";
 import validationService from "../services/ValidationService.js";
-import { createError } from "../services/HandleErrors.js";
+import { createError, validateError } from "../services/HandleErrors.js";
 import { UpdateTypesValidation, UpdateUserValidation } from "../validators/UserValidators.js";
 
 class UserBll {
@@ -9,8 +9,8 @@ class UserBll {
             const { data, error } = await validationService.validate(UpdateUserValidation, updateData);
             const { data: typeData, error: typeError } = await validationService.validate(UpdateTypesValidation, updateType);
 
-            if (error) throw new Error(error);
-            if (typeError) throw new Error(typeError);
+            if (error) validateError(error);
+            if (typeError) validateError(typeError);
             if (!userId) createError(401, "Unauthorized");
 
             switch (typeData) {
