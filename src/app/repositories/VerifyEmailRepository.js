@@ -1,5 +1,4 @@
-import User from "../models/User.model";
-import VerifyEmail from "../models/VerifyEmail.model";
+import VerifyEmail from "../models/VerifyEmail.model.js";
 
 class VerifyEmailRepository {
     async getByEmail(email) {

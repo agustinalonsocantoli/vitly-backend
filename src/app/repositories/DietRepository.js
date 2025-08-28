@@ -1,4 +1,4 @@
-import Diet from '../models/Diet.js';
+import Diet from '../models/Diet.model.js';
 
 class DietRepository {
     async getAll(filter, user) {

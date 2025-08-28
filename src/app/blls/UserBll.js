@@ -1,8 +1,7 @@
 import UserRepository from "../repositories/UserRepository.js";
 import validationService from "../services/ValidationService.js";
-import UpdateUserValidation from "../validations/UpdateUserValidation.js";
 import { createError } from "../services/HandleErrors.js";
-import { UpdateTypesValidation } from "../validators/UserValidators.js";
+import { UpdateTypesValidation, UpdateUserValidation } from "../validators/UserValidators.js";
 
 class UserBll {
     async updateUser(userId, updateData, updateType) {

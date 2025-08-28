@@ -1,4 +1,4 @@
-import DietSchedule from '../models/DietSchedule.js';
+import DietSchedule from '../models/DietSchedule.model.js';
 
 class DietScheduleRepository {
     async getByDietAndUser(diet, user) {

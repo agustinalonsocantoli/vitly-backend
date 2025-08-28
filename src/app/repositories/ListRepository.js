@@ -1,5 +1,5 @@
-import List from "../models/List.model";
-import { createError } from "../services/HandleErrors";
+import List from "../models/List.model.js";
+import { createError } from "../services/HandleErrors.js";
 
 class ListRepository {
     async getAll(user, filter = {}) {

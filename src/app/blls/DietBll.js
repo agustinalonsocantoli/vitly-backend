@@ -1,12 +1,12 @@
-import DietRepository from "../repositories/DietRepository";
-import UserRepository from "../repositories/UserRepository";
-import DietScheduleRepository from "../repositories/DietScheduleRepository";
-import { GenerateDietValidator, UpdateStatusDietValidator } from "../validators/DietValidators";
-import ListServices from "../services/ListServices";
-import ListRepository from "../repositories/ListRepository";
-import { createError } from "../services/HandleErrors";
-import DietServices from "../services/DietServices";
-import DietScheduleServices from "../services/DietScheduleServices"
+import DietRepository from "../repositories/DietRepository.js";
+import UserRepository from "../repositories/UserRepository.js";
+import DietScheduleRepository from "../repositories/DietScheduleRepository.js";
+import { GenerateDietValidator, UpdateStatusDietValidator } from "../validators/DietValidators.js";
+import ListServices from "../services/ListServices.js";
+import ListRepository from "../repositories/ListRepository.js";
+import { createError } from "../services/HandleErrors.js";
+import DietServices from "../services/DietServices.js";
+import DietScheduleServices from "../services/DietScheduleServices.js";
 import { addWeeks } from "date-fns";
 
 class DietBll {

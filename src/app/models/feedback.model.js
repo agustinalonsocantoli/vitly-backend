@@ -6,8 +6,8 @@ const feedbackSchema = new Schema(
         diet: { type: Schema.Types.ObjectId, ref: 'Diet', required: true },
         responses: {
             type: [{
-                question: { type: string, required: true },
-                answer: { type: string, required: true },
+                question: { type: String, required: true },
+                answer: { type: String, required: true },
             }], required: true
         },
         createdAt: { type: Date, default: Date.now },

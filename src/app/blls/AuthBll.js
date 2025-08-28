@@ -2,7 +2,7 @@ import UserRepository from "../repositories/UserRepository.js";
 import VerifyEmailRepository from "../repositories/VerifyEmailRepository.js";
 import validationService from "../services/ValidationService.js";
 import { LoginValidator, RegisterValidator, ResendVerifyValidator, VerifyValidator } from "../validators/AuthValidators.js";
-import emailService from "../services/EmailService.js"
+import emailService from "../services/EmailServices.js"
 import { createError } from "../services/HandleErrors.js";
 import argon2 from "argon2"
 import jwt from "jsonwebtoken"
